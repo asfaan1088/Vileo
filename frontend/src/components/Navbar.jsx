@@ -3,9 +3,21 @@ import SearchBar from "./SearchBar"
 import { Link } from "react-router-dom"
 import { getCurrentUser } from "../services/userService"
 
+const themeAnimation = "https://lottie.host/embed/20e137d8-ae75-4ee7-813f-2838cf03b93d/o3xOtxiL6h.json"
+
 function Navbar() {
   const [user, setUser] = useState(null)
   const [checkingUser, setCheckingUser] = useState(true)
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = window.localStorage.getItem("vileo-theme")
+    return savedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+  })
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark")
+    document.documentElement.style.colorScheme = theme
+    window.localStorage.setItem("vileo-theme", theme)
+  }, [theme])
 
   useEffect(() => {
     getCurrentUser()
@@ -19,45 +31,64 @@ function Navbar() {
   }, [])
 
   return (
-    <nav className="flex items-center justify-between px-6 py-4 border-b border-gray-200 gap-6">
-      <h1 className="text-2xl font-bold">
+    <nav className="sticky top-0 z-40 flex flex-wrap items-center gap-3 border-b border-gray-200 bg-white px-4 py-3 sm:gap-5 sm:px-6 lg:px-8">
+      <Link to="/" className="flex shrink-0 items-center gap-2 text-xl font-extrabold tracking-tight sm:text-2xl">
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-rose-600 text-base text-white">V</span>
         Vileo
-      </h1>
+      </Link>
 
-      <SearchBar />
+      <div className="order-3 w-full md:order-none md:flex-1">
+        <SearchBar />
+      </div>
 
-      <div className="flex items-center gap-4">
+      <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+        <button
+          type="button"
+          onClick={() => setTheme((currentTheme) => currentTheme === "dark" ? "light" : "dark")}
+          aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          aria-pressed={theme === "dark"}
+          title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-gray-200 bg-gray-50 hover:bg-gray-100"
+        >
+          <iframe
+            src={themeAnimation}
+            title="Toggle light and dark mode"
+            aria-hidden="true"
+            tabIndex={-1}
+            className="pointer-events-none h-11 w-11 border-0"
+          />
+        </button>
         {!checkingUser && (user ? (
-          <div className="flex items-center gap-3">
-            <Link to="/upload" className="px-4 py-2 rounded-lg hover:bg-gray-100">
-              Upload
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Link to="/upload" className="rounded-full px-3 py-2 text-sm font-medium hover:bg-gray-100 sm:px-4">
+              <span className="hidden sm:inline">Upload</span><span className="sm:hidden">＋</span>
             </Link>
-            <Link to="/dashboard" className="px-4 py-2 rounded-lg hover:bg-gray-100">
+            <Link to="/dashboard" className="hidden rounded-full px-4 py-2 text-sm font-medium hover:bg-gray-100 lg:inline-flex">
               Dashboard
             </Link>
             {user.avatar ? (
               <img
                 src={user.avatar}
                 alt={`${user.username} avatar`}
-                className="w-9 h-9 rounded-full object-cover"
+                className="h-9 w-9 rounded-full object-cover ring-2 ring-gray-100"
               />
             ) : (
-              <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 text-sm font-semibold">
                 {user.username?.charAt(0)?.toUpperCase() || "?"}
               </div>
             )}
-            <span className="font-medium">{user.username}</span>
+            <span className="hidden max-w-32 truncate text-sm font-semibold sm:inline">{user.username}</span>
           </div>
         ) : (
-          <>
-            <Link to="/login" className="px-4 py-2 rounded-lg hover:bg-gray-100">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Link to="/login" className="rounded-full px-3 py-2 text-sm font-semibold hover:bg-gray-100 sm:px-4">
               Login
             </Link>
 
-            <button className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800">
+            <button className="rounded-full bg-black px-4 py-2 text-sm font-semibold text-white hover:bg-gray-800">
               Sign Up
             </button>
-          </>
+          </div>
         ))}
       </div>
     </nav>

@@ -9,10 +9,12 @@ import Playlist from "./pages/Playlist"
 import Dashboard from "./pages/Dashboard"
 import Subscriptions from "./pages/Subscriptions"
 import History from "./pages/History"
+import Navbar from "./components/Navbar"
 
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
