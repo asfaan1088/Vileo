@@ -38,8 +38,26 @@ function Navbar() {
     let animation
     let handleAnimationReady
 
-    import("lottie-web/build/player/lottie_svg.js").then((lottieModule) => {
+    async function setupAnimation() {
+      const [lottieModule, response] = await Promise.all([
+        import("lottie-web/build/player/lottie_svg.js"),
+        fetch(themeAnimation),
+      ])
+      if (!response.ok) throw new Error("Unable to load theme animation")
+
+      const animationData = await response.json()
       if (cancelled) return
+
+      const runtimeData = structuredClone(animationData)
+      const ringLayerNames = new Set([
+        "Shape Layer 1",
+        "Shape Layer 2",
+        "Shape Layer 3",
+        "Shape Layer 5",
+      ])
+      runtimeData.layers.forEach((layer) => {
+        if (ringLayerNames.has(layer.nm)) layer.hd = true
+      })
 
       const lottie = lottieModule.default || lottieModule
       animation = lottie.loadAnimation({
@@ -47,7 +65,7 @@ function Navbar() {
         renderer: "svg",
         loop: false,
         autoplay: false,
-        path: themeAnimation,
+        animationData: runtimeData,
         rendererSettings: {
           preserveAspectRatio: "xMidYMid meet",
         },
@@ -63,6 +81,10 @@ function Navbar() {
       }
 
       animation.addEventListener("DOMLoaded", handleAnimationReady)
+    }
+
+    setupAnimation().catch((error) => {
+      if (!cancelled) console.error("Unable to load theme toggle animation:", error)
     })
 
     return () => {
@@ -90,7 +112,7 @@ function Navbar() {
   return (
     <nav className="sticky top-0 z-40 flex flex-wrap items-center gap-3 border-b border-gray-200 bg-white px-4 py-3 sm:gap-5 sm:px-6 lg:px-8">
       <Link to="/" className="flex shrink-0 items-center gap-2 text-xl font-extrabold tracking-tight sm:text-2xl">
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-rose-600 text-base text-white">V</span>
+        <img src="/favicon.svg" alt="" className="h-9 w-9 object-contain" />
         Vileo
       </Link>
 
@@ -105,7 +127,7 @@ function Navbar() {
           aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
           aria-pressed={theme === "dark"}
           title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-          className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-gray-200 bg-gray-50 hover:bg-gray-100"
+          className="flex h-11 w-11 items-center justify-center overflow-hidden border-0 bg-transparent p-0"
         >
           <span ref={animationContainerRef} aria-hidden="true" className="h-11 w-11" />
         </button>
