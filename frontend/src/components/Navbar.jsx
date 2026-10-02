@@ -1,9 +1,9 @@
-﻿import { useEffect, useState } from "react"
-import SearchBar from "./SearchBar"
+﻿import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
+import SearchBar from "./SearchBar"
 import { getCurrentUser } from "../services/userService"
 
-const themeAnimation = "https://lottie.host/embed/54c3ed7c-9e65-4729-bdb2-2178f99f54ec/0zBukiEvmC.json"
+const themeAnimation = "https://lottie.host/54c3ed7c-9e65-4729-bdb2-2178f99f54ec/0zBukiEvmC.json"
 
 function Navbar() {
   const [user, setUser] = useState(null)
@@ -12,12 +12,69 @@ function Navbar() {
     const savedTheme = window.localStorage.getItem("vileo-theme")
     return savedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
   })
+  const animationContainerRef = useRef(null)
+  const animationRef = useRef(null)
+  const animationReadyRef = useRef(false)
+  const themeRef = useRef(theme)
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark")
     document.documentElement.style.colorScheme = theme
     window.localStorage.setItem("vileo-theme", theme)
   }, [theme])
+
+  useEffect(() => {
+    themeRef.current = theme
+    const animation = animationRef.current
+    if (!animation || !animationReadyRef.current) return
+
+    animation.setLoop(false)
+    animation.setDirection(theme === "dark" ? 1 : -1)
+    animation.play()
+  }, [theme])
+
+  useEffect(() => {
+    let cancelled = false
+    let animation
+    let handleAnimationReady
+
+    import("lottie-web/build/player/lottie_svg.js").then((lottieModule) => {
+      if (cancelled) return
+
+      const lottie = lottieModule.default || lottieModule
+      animation = lottie.loadAnimation({
+        container: animationContainerRef.current,
+        renderer: "svg",
+        loop: false,
+        autoplay: false,
+        path: themeAnimation,
+        rendererSettings: {
+          preserveAspectRatio: "xMidYMid meet",
+        },
+      })
+      animationRef.current = animation
+
+      handleAnimationReady = () => {
+        animationReadyRef.current = true
+        animation.goToAndStop(
+          themeRef.current === "dark" ? animation.getDuration(true) - 1 : 0,
+          true,
+        )
+      }
+
+      animation.addEventListener("DOMLoaded", handleAnimationReady)
+    })
+
+    return () => {
+      cancelled = true
+      animationReadyRef.current = false
+      if (animation) {
+        animation.removeEventListener("DOMLoaded", handleAnimationReady)
+        animation.destroy()
+        animationRef.current = null
+      }
+    }
+  }, [])
 
   useEffect(() => {
     getCurrentUser()
@@ -50,13 +107,7 @@ function Navbar() {
           title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
           className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-gray-200 bg-gray-50 hover:bg-gray-100"
         >
-          <iframe
-            src={themeAnimation}
-            title="Toggle light and dark mode"
-            aria-hidden="true"
-            tabIndex={-1}
-            className="pointer-events-none h-11 w-11 border-0"
-          />
+          <span ref={animationContainerRef} aria-hidden="true" className="h-11 w-11" />
         </button>
         {!checkingUser && (user ? (
           <div className="flex items-center gap-1 sm:gap-2">
