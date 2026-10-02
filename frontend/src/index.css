@@ -43,7 +43,6 @@ button:disabled {
   outline: 2px solid #e11d48;
   outline-offset: 2px;
 }
-
 html.dark {
   color-scheme: dark;
 }
@@ -121,7 +120,6 @@ html.dark button.bg-black:hover,
 html.dark a.bg-black:hover {
   background-color: #be123c;
 }
-
 html.dark .hover\:text-black:hover {
   color: #fff;
 }

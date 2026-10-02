@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+﻿import { useEffect, useState } from "react"
 import SearchBar from "./SearchBar"
 import { Link } from "react-router-dom"
 import { getCurrentUser } from "../services/userService"
@@ -84,7 +84,6 @@ function Navbar() {
             <Link to="/login" className="rounded-full px-3 py-2 text-sm font-semibold hover:bg-gray-100 sm:px-4">
               Login
             </Link>
-
             <button className="rounded-full bg-black px-4 py-2 text-sm font-semibold text-white hover:bg-gray-800">
               Sign Up
             </button>
