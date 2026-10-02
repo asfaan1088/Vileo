@@ -1,5 +1,164 @@
 @import "tailwindcss";
 
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #111827;
+  background: #f8fafc;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
 body {
   margin: 0;
+  min-width: 320px;
+  background: #f8fafc;
+  color: #111827;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid #e11d48;
+  outline-offset: 2px;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background: #0b0f17;
+  color: #e5e7eb;
+}
+
+html.dark .bg-white {
+  background-color: #111827;
+}
+
+html.dark .bg-gray-50 {
+  background-color: #111827;
+}
+
+html.dark .bg-gray-100 {
+  background-color: #1f2937;
+}
+
+html.dark .bg-gray-200 {
+  background-color: #374151;
+}
+
+html.dark .bg-gray-800 {
+  background-color: #be123c;
+}
+
+html.dark button.bg-black,
+html.dark a.bg-black {
+  background-color: #e11d48;
+}
+
+html.dark .text-black,
+html.dark .text-gray-900,
+html.dark .text-gray-800,
+html.dark .text-gray-700 {
+  color: #f3f4f6;
+}
+
+html.dark .text-gray-600,
+html.dark .text-gray-500 {
+  color: #9ca3af;
+}
+
+html.dark .text-blue-700 {
+  color: #93c5fd;
+}
+
+html.dark .border-gray-100,
+html.dark .border-gray-200,
+html.dark .border-gray-300,
+html.dark .border-gray-400 {
+  border-color: #374151;
+}
+
+html.dark .hover\:bg-gray-50:hover {
+  background-color: #1f2937;
+}
+
+html.dark .hover\:bg-gray-100:hover {
+  background-color: #273449;
+}
+
+html.dark .hover\:bg-gray-200:hover {
+  background-color: #374151;
+}
+
+html.dark .hover\:bg-gray-800:hover {
+  background-color: #be123c;
+}
+
+html.dark button.bg-black:hover,
+html.dark a.bg-black:hover {
+  background-color: #be123c;
+}
+
+html.dark .hover\:text-black:hover {
+  color: #fff;
+}
+
+html.dark .focus\:bg-white:focus {
+  background-color: #111827;
+}
+
+html.dark input:not([type="file"]),
+html.dark textarea,
+html.dark select {
+  border-color: #374151;
+  background-color: #111827;
+  color: #f3f4f6;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #6b7280;
+}
+
+html.dark .bg-green-100 {
+  background-color: #064e3b;
+}
+
+html.dark .text-green-800 {
+  color: #a7f3d0;
+}
+
+html.dark .text-green-700 {
+  color: #6ee7b7;
+}
+
+html.dark .bg-red-50 {
+  background-color: #451a24;
+}
+
+html.dark .text-red-600 {
+  color: #fda4af;
 }

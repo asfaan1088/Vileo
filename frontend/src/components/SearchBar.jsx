@@ -19,16 +19,16 @@ function SearchInput({ initialQuery }) {
   }
 
   return (
-    <form onSubmit={handleSearch} className="flex items-center w-full max-w-xl">
+    <form onSubmit={handleSearch} className="mx-auto flex w-full max-w-2xl items-center">
       <input
         type="text"
         value={searchTerm}
         onChange={(event) => setSearchTerm(event.target.value)}
         placeholder="Search videos..."
-        className="w-full px-4 py-2 border border-gray-300 rounded-l-full outline-none focus:border-black"
+        className="min-w-0 w-full rounded-l-full border border-gray-300 bg-gray-50 px-4 py-2.5 outline-none focus:border-rose-500 focus:bg-white"
       />
 
-      <button type="submit" className="px-5 py-2 border border-l-0 border-gray-300 rounded-r-full hover:bg-gray-100">
+      <button type="submit" className="rounded-r-full border border-l-0 border-gray-300 px-5 py-2.5 font-medium hover:bg-gray-100">
         Search
       </button>
     </form>
