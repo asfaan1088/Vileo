@@ -130,7 +130,8 @@ const loginUser=asyncHandler(async(req,res)=>{
     //cookies
      const options={
       httpOnly:true,
-      secure:false, //in production set it to true
+      secure:true,
+      sameSite:"none",
      }
      return res.status(200)
      .cookie("accessToken", accessToken, options)
@@ -170,7 +171,8 @@ const logoutUser=asyncHandler(async(req,res)=>{
 
    const options={
     httpOnly:true,
-    secure:false
+    secure:true,
+    sameSite:"none",
     }
     return res
     .status(200)
@@ -207,7 +209,8 @@ const refreshAccessToken=asyncHandler(async(req,res)=>{
    
        const options={
         httpOnly:true,
-        secure:false,
+        secure:true,
+        sameSite:"none",
        }
   
        const {accessToken, refreshToken} = await generateAccessandRefreshTokens(user._id);
@@ -545,7 +548,8 @@ const deleteUserAccount=asyncHandler(async(req,res)=>{
   await User.findByIdAndDelete(req.user._id);
     const options={
     httpOnly:true,
-    secure:false
+    secure:true,
+    sameSite:"none",
     }
     return res
     .status(200)
