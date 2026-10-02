@@ -3,7 +3,7 @@ import SearchBar from "./SearchBar"
 import { Link } from "react-router-dom"
 import { getCurrentUser } from "../services/userService"
 
-const themeAnimation = "https://lottie.host/embed/20e137d8-ae75-4ee7-813f-2838cf03b93d/o3xOtxiL6h.json"
+const themeAnimation = "https://lottie.host/embed/54c3ed7c-9e65-4729-bdb2-2178f99f54ec/0zBukiEvmC.json"
 
 function Navbar() {
   const [user, setUser] = useState(null)
