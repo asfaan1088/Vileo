@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  --page-background: #f8fafc;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: #111827;
   background: #f8fafc;
@@ -14,13 +15,15 @@
 html,
 body,
 #root {
-  min-height: 100%;
+  min-height: 100vh;
+  background-color: var(--page-background);
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  background: #f8fafc;
+  min-height: 100vh;
+  background: var(--page-background);
   color: #111827;
 }
 
@@ -44,12 +47,22 @@ button:disabled {
   outline-offset: 2px;
 }
 html.dark {
+  --page-background: #0b0f17;
+  min-height: 100vh;
+  background-color: var(--page-background);
+  color: #e5e7eb;
   color-scheme: dark;
 }
 
 html.dark body {
-  background: #0b0f17;
+  min-height: 100vh;
+  background: var(--page-background);
   color: #e5e7eb;
+}
+
+html.dark #root {
+  min-height: 100vh;
+  background-color: var(--page-background);
 }
 
 html.dark .bg-white {
@@ -66,6 +79,10 @@ html.dark .bg-gray-100 {
 
 html.dark .bg-gray-200 {
   background-color: #374151;
+}
+
+html.dark .bg-gray-300 {
+  background-color: #4b5563;
 }
 
 html.dark .bg-gray-800 {
@@ -89,6 +106,10 @@ html.dark .text-gray-500 {
   color: #9ca3af;
 }
 
+html.dark .text-gray-400 {
+  color: #9ca3af;
+}
+
 html.dark .text-blue-700 {
   color: #93c5fd;
 }
@@ -97,6 +118,10 @@ html.dark .border-gray-100,
 html.dark .border-gray-200,
 html.dark .border-gray-300,
 html.dark .border-gray-400 {
+  border-color: #374151;
+}
+
+html.dark .border-white {
   border-color: #374151;
 }
 
@@ -110,6 +135,10 @@ html.dark .hover\:bg-gray-100:hover {
 
 html.dark .hover\:bg-gray-200:hover {
   background-color: #374151;
+}
+
+html.dark .hover\:bg-gray-300:hover {
+  background-color: #4b5563;
 }
 
 html.dark .hover\:bg-gray-800:hover {
@@ -155,6 +184,10 @@ html.dark .text-green-700 {
 
 html.dark .bg-red-50 {
   background-color: #451a24;
+}
+
+html.dark .ring-white {
+  --tw-ring-color: #374151;
 }
 
 html.dark .text-red-600 {
